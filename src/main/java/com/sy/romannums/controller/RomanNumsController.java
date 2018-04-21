@@ -26,7 +26,7 @@ public class RomanNumsController {
 	@RequestMapping( value = "/romannums", method = RequestMethod.GET )
     public String toRomanNum( @RequestParam("number") Integer number ) {
 		
-		return romanNumsService.toRoman( number );
+		return romanNumsService.toRomanNumber( number );
     }
 	
 	
