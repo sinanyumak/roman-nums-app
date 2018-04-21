@@ -1,0 +1,39 @@
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<title>Roma Rakamları</title>
+
+
+		<!-- jQuery bağımlılığı -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+	
+	
+		<script>
+
+			$( document ).ready( function() {
+
+				$.ajax({
+					url: "romannums",
+					data: {
+						"number": 9 
+					},
+					cache: false,
+					type: "GET",
+					success: function( response ) {
+						alert( response );
+					},
+					error: function( xhr ) {
+						alert( response );
+					}
+				});
+
+			});
+		
+		</script>
+	</head>
+	
+	<body></body>
+
+</html>
