@@ -9,31 +9,125 @@
 		<!-- jQuery bağımlılığı -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 	
-	
+ 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css"
+			rel="stylesheet" type="text/css" >
+ 		
 		<script>
 
 			$( document ).ready( function() {
+				
+				initUI();
+
+			});
+
+
+			function initUI() {
+				$( "#convertButton" ).click( function() {
+					
+					var validInputDefined = isValidInputDefined();
+					if ( !validInputDefined ) {
+						alert( "Lütfen Geçerli Bir Tamsayı Giriniz." );
+						return false;
+					}			
+
+					fetchRomanNumValue();	
+				});
+				
+			}
+
+		
+			function isValidInputDefined() {
+				// girilen değeri al..
+				var numberInput = getNumberValue();
+				
+				
+				// herhangi bir değer girilmiş mi?
+				if ( numberInput.length === 0 ) {
+					return false;
+				}
+
+				// nümerik bir değer girilmiş mi?				
+				if (  !$.isNumeric(numberInput) ) {
+					return false;
+				} 
+				
+				
+				return true;
+			}	
+				
+				
+			/**
+			 * Ekrandan girilen numaranın Roma rakamı karşılığını sunucudan sorgular. 
+			 */
+			function fetchRomanNumValue() {
 
 				$.ajax({
 					url: "romannums",
 					data: {
-						"number": 9 
+						"number": getNumberValue() 
 					},
 					cache: false,
 					type: "GET",
 					success: function( response ) {
-						alert( response );
+						$( "#romanNumber" ).val( response );
 					},
-					error: function( xhr ) {
-						alert( response );
+					error: function( response ) {
+						$( "#romanNumber" ).val( response.responseJSON.message );
 					}
 				});
+				
+			}
 
-			});
-		
+			
+			/**
+			 * Ekrandan girilen numara değerini döndürür.
+			 */
+			function getNumberValue() {
+				return $( "#numberInput" ).val();
+			}
+			
 		</script>
 	</head>
 	
-	<body></body>
+	<body>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mt-4">
+					<hr>
+						<h4 class="text-center">Roma Rakamları</h4>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 offset-md-4 mt-4">
+					<input class="form-control text-center" id="numberInput" placeholder="Bir Sayı Giriniz" />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 offset-md-4 mt-2">
+					<button id="convertButton" type="button" class="form-control btn btn-primary btn-danger">Çevir</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 mt-4">
+					<hr>
+						<h4 class="text-center">Sonuç</h4>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 offset-md-4 mt-2">
+					<input class="form-control text-center" id="romanNumber" placeholder="Sonuç"/>
+				</div>
+			</div>
+
+		</div> 
+
+	</body>
 
 </html>
